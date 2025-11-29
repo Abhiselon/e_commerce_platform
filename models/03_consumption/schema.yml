@@ -1,0 +1,60 @@
+version: 2
+
+models:
+  - name: daily_revenue_by_date
+    description: "Daily revenue, orders, and AOV metrics aggregated from fact_orders."
+    columns:
+      - name: order_date
+        description: "Date of the order."
+        tests:
+          - not_null
+      - name: orders
+        description: "Number of orders placed on this date."
+      - name: revenue
+        description: "Total revenue for the date."
+      - name: aov
+        description: "Average order value for the date."
+
+  - name: monthly_revenue_by_category
+    description: "Monthly revenue and order metrics grouped by product category."
+    columns:
+      - name: year_month
+        description: "Year-month (YYYY-MM) for aggregation."
+        tests:
+          - not_null
+      - name: category
+        description: "Product category."
+        tests:
+          - not_null
+      - name: orders
+        description: "Count of distinct orders in this month/category."
+      - name: revenue
+        description: "Revenue for that month/category."
+
+  - name: customer_ltv_30d
+    description: "Customer-level 30-day revenue since their first order (LTV 30)."
+    columns:
+      - name: customer_id
+        description: "Unique customer identifier."
+        tests:
+          - not_null
+      - name: first_order_at
+        description: "Timestamp when customer made the first purchase."
+        tests:
+          - not_null
+      - name: revenue_30d
+        description: "Revenue from the customer within 30 days from first purchase."
+
+  - name: top_products_90d
+    description: "Top-selling products by revenue and quantity in the last 90 days."
+    columns:
+      - name: product_id
+        description: "Unique product identifier."
+        tests:
+          - not_null
+      - name: product_name
+        description: "Product name."
+      - name: revenue_90d
+        description: "Total revenue generated in 90 days."
+      - name: quantity_sold
+        description: "Total quantity sold."

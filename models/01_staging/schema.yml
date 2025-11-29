@@ -1,0 +1,33 @@
+version: 2
+
+sources:
+  - name: landing
+    database: "{{ target.project }}"   # uses profile project by default
+    schema: landing
+    tables:
+      - name: customers
+      - name: orders
+      - name: products
+
+models:
+  - name: stg_customers
+    description: "Cleaned / typed customers from landing.customers"
+    columns:
+      - name: customer_id
+        tests: [not_null, unique]
+      - name: email
+        tests: [not_null]
+  - name: stg_orders
+    description: "Cleaned / typed orders from landing.orders"
+    columns:
+      - name: order_id
+        tests: [not_null, unique]
+      - name: customer_id
+        tests: [not_null]
+  - name: stg_products
+    description: "Cleaned / typed products from landing.products"
+    columns:
+      - name: product_id
+        tests: [not_null, unique]
+      - name: price
+        tests: [not_null]
