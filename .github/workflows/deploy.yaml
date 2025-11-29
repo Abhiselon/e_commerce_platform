@@ -24,11 +24,11 @@ jobs:
 
       - name: Copy DAGs to Composer
         run: |
-          gsutil -m rsync -r e_commerce_platform/dags gs://us-central1-airflow-dev-e4cdd097-bucket/dags/
+          gsutil -m rsync -r dags gs://us-central1-airflow-dev-e4cdd097-bucket/dags/
 
       - name: Copy scripts to Composer
         run: |
-          gsutil -m rsync -r e_commerce_platform/scripts gs://us-central1-airflow-dev-e4cdd097-bucket/dags/scripts/
+          gsutil -m rsync -r scripts gs://us-central1-airflow-dev-e4cdd097-bucket/dags/scripts/
 
       - name: Copy dbt project to Composer
         run: |
