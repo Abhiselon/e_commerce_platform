@@ -1,0 +1,35 @@
+name: deploy-to-composer
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Setup Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Copy DAGs to Composer
+        run: |
+          gsutil -m rsync -r e_commerce_platform/dags gs://us-central1-airflow-dev-e4cdd097-bucket/dags/
+
+      - name: Copy scripts to Composer
+        run: |
+          gsutil -m rsync -r e_commerce_platform/scripts gs://us-central1-airflow-dev-e4cdd097-bucket/dags/scripts/
+
+      - name: Copy dbt project to Composer
+        run: |
+          gsutil -m rsync -r e_commerce_platform gs://us-central1-airflow-dev-e4cdd097-bucket/dags/e_commerce_platform/

@@ -1,0 +1,5 @@
+pandas
+faker
+google-genai
+google-cloud-bigquery
+pydantic
