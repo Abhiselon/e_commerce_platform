@@ -96,7 +96,7 @@ with DAG(
         bash_command=f"""
         source {DBT_VENV}/bin/activate
         cd {DBT_PROJECT_DIR}
-        dbt run -s models/staging/*
+        dbt run -s models/01_staging/*
         """,
     )
 
@@ -106,7 +106,7 @@ with DAG(
         bash_command=f"""
         source {DBT_VENV}/bin/activate
         cd {DBT_PROJECT_DIR}
-        dbt test -s models/staging/*
+        dbt test -s models/01_staging/*
         """,
     )
 
@@ -116,7 +116,7 @@ with DAG(
         bash_command=f"""
         source {DBT_VENV}/bin/activate
         cd {DBT_PROJECT_DIR}
-        dbt run -s models/marts/*
+        dbt run -s models/02_marts/*
         """,
     )
 
@@ -126,7 +126,7 @@ with DAG(
         bash_command=f"""
         source {DBT_VENV}/bin/activate
         cd {DBT_PROJECT_DIR}
-        dbt test -s models/marts/*
+        dbt test -s models/02_marts/*
         """,
     )
 
@@ -136,7 +136,7 @@ with DAG(
         bash_command=f"""
         source {DBT_VENV}/bin/activate
         cd {DBT_PROJECT_DIR}
-        dbt run -s models/consumption/*
+        dbt run -s models/03_consumption/*
         """,
     )
 
@@ -146,7 +146,7 @@ with DAG(
         bash_command=f"""
         source {DBT_VENV}/bin/activate
         cd {DBT_PROJECT_DIR}
-        dbt test -s models/consumption/*
+        dbt test -s models/03_consumption/*
         """,
     )
 
