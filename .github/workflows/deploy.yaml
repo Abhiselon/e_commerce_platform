@@ -37,13 +37,13 @@ jobs:
           DST_BUCKET="gs://us-central1-airflow-dev-e4cdd097-bucket/dags/e_commerce_platform"
 
           # dbt_project.yml (optional)
-          gsutil cp e_commerce_platform/dbt_project.yml "${DST_BUCKET}/dbt_project.yml" || true
+          gsutil cp dbt_project.yml "${DST_BUCKET}/dbt_project.yml" || true
 
           # models folder (optional)
-          gsutil -m cp -r e_commerce_platform/models "${DST_BUCKET}/models" || true
+          gsutil -m cp -r models "${DST_BUCKET}/models" || true
 
           # profiles.yml (optional)
-          gsutil cp e_commerce_platform/profiles.yml "${DST_BUCKET}/profiles.yml" || true
+          gsutil cp profiles.yml "${DST_BUCKET}/profiles.yml" || true
 
           # OPTIONAL: show uploaded content (won't fail)
           gsutil ls -r "${DST_BUCKET}/**" || true
