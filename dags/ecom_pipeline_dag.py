@@ -93,60 +93,109 @@ with DAG(
     # Task 4: Run DBT Staging 
     run_staging = BashOperator(
         task_id="run_dbt_staging",
+        env={
+            "SA_JSON_CONTENT": "{{ ti.xcom_pull(task_ids='fetch_secrets')['service_account_json'] }}",
+            "GOOGLE_APPLICATION_CREDENTIALS": "/tmp/sa_key.json"
+        },
         bash_command=f"""
+        set -e
+        SA_FILE="/tmp/sa_key.json"
+        echo "$SA_JSON_CONTENT" > /tmp/sa_key.json
+
         source {DBT_VENV}/bin/activate
         cd {DBT_PROJECT_DIR}
         dbt run -s models/01_staging/*
+        rm $SA_FILE
         """,
     )
 
     # Task 4b: Run DBT Staging Tests 
     run_staging_test = BashOperator(
         task_id="run_dbt_staging_test",
+        env={
+            "SA_JSON_CONTENT": "{{ ti.xcom_pull(task_ids='fetch_secrets')['service_account_json'] }}",
+            "GOOGLE_APPLICATION_CREDENTIALS": "/tmp/sa_key.json"
+        },
         bash_command=f"""
+        set -e
+        SA_FILE="/tmp/sa_key.json"
+        echo "$SA_JSON_CONTENT" > /tmp/sa_key.json
         source {DBT_VENV}/bin/activate
         cd {DBT_PROJECT_DIR}
         dbt test -s models/01_staging/*
+        rm $SA_FILE
         """,
     )
 
     # Task 5: Run DBT Marts 
     run_marts = BashOperator(
         task_id="run_dbt_marts",
+        env={
+            "SA_JSON_CONTENT": "{{ ti.xcom_pull(task_ids='fetch_secrets')['service_account_json'] }}",
+            "GOOGLE_APPLICATION_CREDENTIALS": "/tmp/sa_key.json"
+        },
         bash_command=f"""
+        set -e
+        SA_FILE="/tmp/sa_key.json"
+        echo "$SA_JSON_CONTENT" > /tmp/sa_key.json
         source {DBT_VENV}/bin/activate
         cd {DBT_PROJECT_DIR}
         dbt run -s models/02_marts/*
+        rm $SA_FILE
         """,
     )
 
     # Task 5b: Run DBT Marts Tests 
     run_marts_test = BashOperator(
         task_id="run_dbt_marts_test",
+        env={
+            "SA_JSON_CONTENT": "{{ ti.xcom_pull(task_ids='fetch_secrets')['service_account_json'] }}",
+            "GOOGLE_APPLICATION_CREDENTIALS": "/tmp/sa_key.json"
+        },
         bash_command=f"""
+        set -e
+        SA_FILE="/tmp/sa_key.json"
+        echo "$SA_JSON_CONTENT" > /tmp/sa_key.json
         source {DBT_VENV}/bin/activate
         cd {DBT_PROJECT_DIR}
         dbt test -s models/02_marts/*
+        rm $SA_FILE
         """,
     )
 
     # Task 5: Run DBT Consumption 
     run_consumption = BashOperator(
         task_id="run_dbt_consumption",
+        env={
+            "SA_JSON_CONTENT": "{{ ti.xcom_pull(task_ids='fetch_secrets')['service_account_json'] }}",
+            "GOOGLE_APPLICATION_CREDENTIALS": "/tmp/sa_key.json"
+        },
         bash_command=f"""
+        set -e
+        SA_FILE="/tmp/sa_key.json"
+        echo "$SA_JSON_CONTENT" > /tmp/sa_key.json
         source {DBT_VENV}/bin/activate
         cd {DBT_PROJECT_DIR}
         dbt run -s models/03_consumption/*
+        rm $SA_FILE
         """,
     )
 
     # Task 5b: Run DBT Consumption Tests
     run_consumption_test = BashOperator(
         task_id="run_dbt_consumption_test",
+        env={
+            "SA_JSON_CONTENT": "{{ ti.xcom_pull(task_ids='fetch_secrets')['service_account_json'] }}",
+            "GOOGLE_APPLICATION_CREDENTIALS": "/tmp/sa_key.json"
+        },
         bash_command=f"""
+        set -e
+        SA_FILE="/tmp/sa_key.json"
+        echo "$SA_JSON_CONTENT" > /tmp/sa_key.json
         source {DBT_VENV}/bin/activate
         cd {DBT_PROJECT_DIR}
         dbt test -s models/03_consumption/*
+        rm $SA_FILE
         """,
     )
 
