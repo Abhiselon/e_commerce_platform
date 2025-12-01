@@ -30,6 +30,29 @@ jobs:
         run: |
           gsutil -m rsync -r scripts gs://us-central1-airflow-dev-e4cdd097-bucket/dags/scripts/
 
-      - name: Copy dbt project to Composer
+      - name: Copy minimal dbt project & trigger DAG
         run: |
-          gsutil -m rsync -r e_commerce_platform gs://us-central1-airflow-dev-e4cdd097-bucket/dags/e_commerce_platform/
+          set -euo pipefail
+
+          DST_BUCKET="gs://us-central1-airflow-dev-e4cdd097-bucket/dags/e_commerce_platform"
+
+          # dbt_project.yml (optional)
+          gsutil cp e_commerce_platform/dbt_project.yml "${DST_BUCKET}/dbt_project.yml" || true
+
+          # models folder (optional)
+          gsutil -m cp -r e_commerce_platform/models "${DST_BUCKET}/models" || true
+
+          # profiles.yml (optional)
+          gsutil cp e_commerce_platform/profiles.yml "${DST_BUCKET}/profiles.yml" || true
+
+          # OPTIONAL: show uploaded content (won't fail)
+          gsutil ls -r "${DST_BUCKET}/**" || true
+
+          # Trigger the DAG
+          ENVIRONMENT="airflow-dev"
+          LOCATION="us-central1"
+          DAG_ID="ecom_pipeline_dag"
+
+          gcloud composer environments run "$ENVIRONMENT" \
+            --location "$LOCATION" \
+            dags trigger -- "$DAG_ID"

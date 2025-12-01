@@ -1,0 +1,14 @@
+e_commerce_platform:
+  outputs:
+    dev:
+      dataset: landing
+      job_execution_timeout_seconds: 300
+      job_retries: 1
+      keyfile: /tmp/sa_key.json 
+      location: US
+      method: service-account
+      priority: interactive
+      project: modular-ground-478409-a3
+      threads: 4
+      type: bigquery
+  target: dev
