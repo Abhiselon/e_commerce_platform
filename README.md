@@ -193,11 +193,9 @@ This command will:
 ```
 pip install dbt-bigquery
 ```
-
+```
 %USERPROFILE%\venvs\dbt-venv
-
-````
-
+```
 
 ### Prerequisites
 - Google Cloud account with a GCP project and BigQuery enabled.
@@ -228,7 +226,7 @@ Steps:
 4. Run the landing script:
    ```bash
    python scripts/generate_and_load.py --config config/dev.yaml
-````
+   ```
 
 ### Environment Variables Used by Landing Script
 
